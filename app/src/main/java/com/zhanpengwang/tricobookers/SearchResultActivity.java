@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 public class SearchResultActivity extends AppCompatActivity {
 
     private DBhelper mDBHelper;
+    private Bitmap downloadedImagebitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +26,10 @@ public class SearchResultActivity extends AppCompatActivity {
         TextView bookName = findViewById(R.id.bookName);
         ImageView imageView = findViewById(R.id.thumbnail_image);
         final String queriedBook = intent.getStringExtra("query");
-        String queriedBookName = mDBHelper.getInformationByBookCouse(queriedBook, DBhelper.getTableColumnBookName());
+        final String queriedBookName = mDBHelper.getInformationByBookCouse(queriedBook, DBhelper.getTableColumnBookName());
         bookName.setText(queriedBookName);
         String queriedBookImgURL = mDBHelper.getInformationByBookCouse(queriedBook, DBhelper.getTableColumnImgUrl());
         Log.e("image url", queriedBookImgURL + " =====url");
-        Bitmap downloadedImagebitmap = null;
         try {
             downloadedImagebitmap = new ImageLoader().execute(queriedBookImgURL).get();
         } catch (ExecutionException e) {
@@ -50,6 +50,18 @@ public class SearchResultActivity extends AppCompatActivity {
                 intent1.putExtra("ISBN", queriedBookISBN);
                 Log.e("Sending over ISBN", queriedBook+ " =====");
                 startActivity(intent1);
+            }
+        });
+
+        // sending over the book title and bitmap to sellingActivity
+        Button sellButtion = findViewById(R.id.Sell);
+        sellButtion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(getBaseContext(), SellingActivity.class);
+                intent2.putExtra("ImageBitmap", downloadedImagebitmap);
+                intent2.putExtra("book title", queriedBookName);
+                startActivity(intent2);
             }
         });
     }

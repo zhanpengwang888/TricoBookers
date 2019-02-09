@@ -67,4 +67,6 @@
             android:text="@string/option_search_by_default" />
     </RadioGroup>
 
+
+
 </android.support.constraint.ConstraintLayout>
