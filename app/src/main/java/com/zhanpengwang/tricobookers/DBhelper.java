@@ -125,4 +125,23 @@ public class DBhelper extends SQLiteOpenHelper {
         return ids;
     }
 
+    public static String getTableColumnIsbn() {
+        return TABLE_COLUMN_ISBN;
+    }
+
+    public static String getTableColumnAuthors() {
+        return TABLE_COLUMN_AUTHORS;
+    }
+
+    public static String getTableColumnBookName() {
+        return TABLE_COLUMN_BOOK_NAME;
+    }
+
+    public static String getTableColumnDepartment() {
+        return TABLE_COLUMN_DEPARTMENT;
+    }
+
+    public static String getTableColumnCourse() {
+        return TABLE_COLUMN_COURSE;
+    }
 }

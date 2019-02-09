@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TricoBookers</string>
+    <string name="option_search_by_book_name">Book Title</string>
+    <string name="option_search_by_authors">Authors</string>
+    <string name="option_search_by_department">Department</string>
+    <string name="option_search_by_course_number">Course Number</string>
+    <string name="option_search_by_ISBN">ISBN</string>
+    <string name="option_search_by_default">Default</string>
 </resources>

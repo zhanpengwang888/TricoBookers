@@ -18,7 +18,7 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
 
     <TextView
-        android:id="@+id/channel_title"
+        android:id="@+id/authors"
         android:layout_width="239dp"
         android:layout_height="27dp"
         android:layout_alignParentBottom="true"
@@ -32,10 +32,10 @@
         android:textSize="@dimen/text_size_small" />
 
     <TextView
-        android:id="@+id/video_title"
+        android:id="@+id/bookName"
         android:layout_width="239dp"
         android:layout_height="27dp"
-        android:layout_above="@id/channel_title"
+        android:layout_above="@id/authors"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@id/thumbnail_image"
