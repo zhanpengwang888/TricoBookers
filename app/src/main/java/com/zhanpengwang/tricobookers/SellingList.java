@@ -8,21 +8,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SellingList extends AbstractList<SearchResult> {
+public class SellingList extends AbstractList<Sellers> {
     private final DataSetObservable dataSetObservable;
-    private List<SearchResult> searchResultList;
+    private List<Sellers> sellersList;
 
     protected SellingList() {
         this.dataSetObservable = new DataSetObservable();
-        searchResultList = new ArrayList<>();
+        sellersList = new ArrayList<>();
     }
 
-    public List<SearchResult> getSearchResultList() {
-        return searchResultList;
+    public List<Sellers> getSellersList() {
+        return sellersList;
     }
 
-    public void setSearchResultList(List<SearchResult> srl) {
-        searchResultList = srl;
+    public void setSellersList(List<Sellers> srl) {
+        sellersList = srl;
     }
 
     protected void notifyChanged() {
@@ -38,40 +38,40 @@ public class SellingList extends AbstractList<SearchResult> {
     }
 
     @Override
-    public boolean add(SearchResult searchResult) {
-        boolean isAddSuccessful = searchResultList.add(searchResult);
+    public boolean add(Sellers sellers) {
+        boolean isAddSuccessful = sellersList.add(sellers);
         notifyChanged();
         return isAddSuccessful;
     }
 
     @Override
-    public boolean addAll(Collection<? extends SearchResult> c) {
-        boolean isAddSuccessful = searchResultList.addAll(c);
+    public boolean addAll(Collection<? extends Sellers> c) {
+        boolean isAddSuccessful = sellersList.addAll(c);
         notifyChanged();
         return isAddSuccessful;
     }
 
     @Override
     public int indexOf(Object o) {
-        return searchResultList.indexOf(o);
+        return sellersList.indexOf(o);
     }
 
     @Override
     public void clear() {
-        searchResultList.clear();
+        sellersList.clear();
         notifyChanged();
     }
 
     @Override
-    public SearchResult get(int index) {
-        if (!searchResultList.isEmpty()) {
-            return searchResultList.get(index);
+    public Sellers get(int index) {
+        if (!sellersList.isEmpty()) {
+            return sellersList.get(index);
         }
         return null;
     }
 
     @Override
     public int size() {
-        return searchResultList.size();
+        return sellersList.size();
     }
 }

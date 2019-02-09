@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip">
+
+    <TextView
+        android:id="@+id/seller"
+        android:layout_width="190dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@id/thumbnail_image"
+        android:layout_toRightOf="@id/thumbnail_image"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Seller Name"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="239dp"
+        android:layout_height="27dp"
+        android:layout_above="@id/seller"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@id/thumbnail_image"
+        android:layout_toRightOf="@id/thumbnail_image"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:text="Price"
+        android:textSize="@dimen/text_size_medium" />
+
+    <TextView
+        android:id="@+id/contact"
+        android:layout_width="180dp"
+        android:layout_height="31dp"
+        android:layout_alignTop="@+id/seller"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="-1dp"
+        android:layout_toEndOf="@+id/seller"
+        android:layout_toRightOf="@+id/seller"
+        android:gravity="center_vertical"
+        android:text="Contact"
+        android:textSize="12sp" />
+
+</RelativeLayout>

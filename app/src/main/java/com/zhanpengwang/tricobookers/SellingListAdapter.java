@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -47,12 +48,12 @@ public class SellingListAdapter extends BaseAdapter {
         return position;
     }
 
-    public void addListItemToSearchResultList(List<SearchResult> srl) {
+    public void addListItemToSearchResultList(List<Sellers> srl) {
         sellingList.addAll(srl);
     }
 
-    public void setSellingList(List<SearchResult> srl) {
-        sellingList.setSearchResultList(srl);
+    public void setSellingList(List<Sellers> srl) {
+        sellingList.setSellersList(srl);
     }
 
     @Override
@@ -62,10 +63,19 @@ public class SellingListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final SearchResult searchResult = sellingList.get(position);
+        final Sellers sellers = sellingList.get(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.search_result_item, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.buy_book_item, parent, false);
         }
+        String username = "Seller: " + sellers.getUsername();
+        String price = "$" + sellers.getPrice();
+        String contacts = "Phone number: " + sellers.getContacts();
+        TextView nameTextview = convertView.findViewById(R.id.seller);
+        TextView priceTextview = convertView.findViewById(R.id.price);
+        TextView contactTextView = convertView.findViewById(R.id.contact);
+        nameTextview.setText(username);
+        priceTextview.setText(price);
+        contactTextView.setText(contacts);
         return convertView;
     }
 

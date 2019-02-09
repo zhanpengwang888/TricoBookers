@@ -72,7 +72,8 @@ class parseCSVIntoDB extends AsyncTask<Void, Void, Void> {
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] columns = line.split("\t");
                     mDBHelper.insertNewSellers(columns[0], columns[1], columns[2], columns[3]);
-                    Log.e("error in parsing data", columns[0]);
+                    Log.e("error in parsing data", columns[0] + " " + columns[1] + " "
+                            + columns[2] + " " + columns[3]);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

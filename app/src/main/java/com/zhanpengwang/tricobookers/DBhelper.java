@@ -117,6 +117,25 @@ public class DBhelper extends SQLiteOpenHelper {
         return mdb.rawQuery("SELECT * FROM "+DATABASE_TABLE_NAME+" WHERE id ="+id+"", null);
     }
 
+    public ArrayList<Sellers> getAListOfSellers(String isbn) {
+        ArrayList<Sellers> list = new ArrayList<>();
+        String queryString = "SELECT * FROM " + DATABASE_SELLERS_TABLE_NAME + " WHERE " + SELLERS_TABLE_COLUMN_ISBN +
+                "=" + isbn;
+        mdb = this.getReadableDatabase();
+        Cursor cursor = mdb.rawQuery(queryString, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String username = cursor.getString(cursor.getColumnIndex(SELLERS_TABLE_COLUMN_USERNAME));
+            String price = cursor.getString(cursor.getColumnIndex(SELLERS_TABLE_COLUMN_PRICE));
+            String contact = cursor.getString(cursor.getColumnIndex(SELLERS_TABLE_COLUMN_CONTACTS));
+            Sellers sellers = new Sellers(username, price, contact);
+            list.add(sellers);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+
     public StringBuilder getInformationFromOID(int id, String queryRequest) {
         Cursor cur = getData(id);
         cur.moveToFirst();

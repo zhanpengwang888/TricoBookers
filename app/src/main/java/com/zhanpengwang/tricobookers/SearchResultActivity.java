@@ -24,7 +24,7 @@ public class SearchResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         TextView bookName = findViewById(R.id.bookName);
         ImageView imageView = findViewById(R.id.thumbnail_image);
-        String queriedBook = intent.getStringExtra("query");
+        final String queriedBook = intent.getStringExtra("query");
         String queriedBookName = mDBHelper.getInformationByBookCouse(queriedBook, DBhelper.getTableColumnBookName());
         bookName.setText(queriedBookName);
         String queriedBookImgURL = mDBHelper.getInformationByBookCouse(queriedBook, DBhelper.getTableColumnImgUrl());
@@ -39,11 +39,17 @@ public class SearchResultActivity extends AppCompatActivity {
         }
         imageView.setImageBitmap(downloadedImagebitmap);
 
+
+        // sending over the ISBN
+        final String queriedBookISBN = mDBHelper.getInformationByBookCouse(queriedBook, DBhelper.getTableColumnIsbn());
         Button buyButton = findViewById(R.id.Buy);
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent1 = new Intent(getBaseContext(), BuyListActivity.class);
+                intent1.putExtra("ISBN", queriedBookISBN);
+                Log.e("Sending over ISBN", queriedBook+ " =====");
+                startActivity(intent1);
             }
         });
     }
