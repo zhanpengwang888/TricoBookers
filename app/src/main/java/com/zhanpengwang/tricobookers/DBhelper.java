@@ -4,6 +4,7 @@ package com.zhanpengwang.tricobookers;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -18,12 +19,13 @@ public class DBhelper extends SQLiteOpenHelper {
     private static String TABLE_COLUMN_AUTHORS = "authors";
     private static String TABLE_COLUMN_BOOK_NAME = "book_name";
     private static String TABLE_COLUMN_IS_REQUIRED = "is_required";
-    private static String TABLE_COLUMN_STATUS = "status";
+    private static String TABEL_COLUMN_SEMESTER = "semester";
     private static String TABLE_COLUMN_DEPARTMENT = "department";
     private static String TABLE_COLUMN_COURSE = "course_number";
     private static String TABLE_COLUMN_USED_PRICE = "used_price";
     private static String TABLE_COLUMN_NEW_PRICE = "new_price";
     private static String TABLE_COLUMN_IMG_URL = "img_url";
+    private static String TABLE_COLUMN_BOOK_COURSE = "book_course";
     private static final int DICTIONARY_DATABASE_QUERY_ERROR = -2;
     private static String DATABASE_PATH;
     private SQLiteDatabase mdb;
@@ -36,13 +38,20 @@ public class DBhelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create the database upon the first installation of the tricobookers app
-        String queryString = "CREATE TABLE " + DATABASE_TABLE_NAME + " (id INTEGER PRIMARY KEY, "
+        String queryString = "CREATE TABLE " + DATABASE_TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TABLE_COLUMN_AUTHORS + " TEXT, " + TABLE_COLUMN_BOOK_NAME + " TEXT, "
                 + TABLE_COLUMN_DEPARTMENT + " TEXT, " + TABLE_COLUMN_ISBN + " TEXT, "
-                + TABLE_COLUMN_IS_REQUIRED + " TEXT, " + TABLE_COLUMN_STATUS + " TEXT, "
-                + TABLE_COLUMN_COURSE + " TEXT, " + TABLE_COLUMN_NEW_PRICE + "TEXT, "
-                + TABLE_COLUMN_USED_PRICE + " TEXT)";
+                + TABLE_COLUMN_IS_REQUIRED + " TEXT, " + TABEL_COLUMN_SEMESTER + " TEXT, "
+                + TABLE_COLUMN_COURSE + " TEXT, " + TABLE_COLUMN_NEW_PRICE + " TEXT, "
+                + TABLE_COLUMN_USED_PRICE + " TEXT, " + TABLE_COLUMN_IMG_URL + " TEXT, "
+                + TABLE_COLUMN_BOOK_COURSE + " TEXT, UNIQUE(book_course) ON CONFLICT REPLACE)";
         db.execSQL(queryString);
+    }
+
+    public long getCount() {
+        mdb = this.getReadableDatabase();
+        long count = DatabaseUtils.queryNumEntries(mdb, DATABASE_TABLE_NAME);
+        return count;
     }
 
     @Override
@@ -52,29 +61,31 @@ public class DBhelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    private ContentValues wrapper(String bookName, String isbn, String authors, String isRequired,
-                                 String status, String department, String courseNumber, String usedPrice,
-                                 String newPrice, String imgURL) {
+    private ContentValues wrapper(String bookName, String authors, String department, String isbn,
+                                  String courseNumber, String isRequired, String usedPrice,
+                                  String newPrice, String semester, String imgURL) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TABLE_COLUMN_BOOK_NAME, bookName);
         contentValues.put(TABLE_COLUMN_ISBN, isbn);
         contentValues.put(TABLE_COLUMN_AUTHORS, authors);
         contentValues.put(TABLE_COLUMN_IS_REQUIRED, isRequired);
-        contentValues.put(TABLE_COLUMN_STATUS, status);
         contentValues.put(TABLE_COLUMN_DEPARTMENT, department);
         contentValues.put(TABLE_COLUMN_COURSE, courseNumber);
         contentValues.put(TABLE_COLUMN_USED_PRICE, usedPrice);
         contentValues.put(TABLE_COLUMN_NEW_PRICE, newPrice);
         contentValues.put(TABLE_COLUMN_IMG_URL, imgURL);
+        contentValues.put(TABEL_COLUMN_SEMESTER, semester);
+        String bookCourse = bookName + " " + courseNumber;
+        contentValues.put(TABLE_COLUMN_BOOK_NAME, bookCourse);
         return contentValues;
     }
 
-    public void insertNewRecord(String bookName, String isbn, String authors, String isRequired,
-                                String status, String department, String courseNumber, String usedPrice,
-                                String newPrice, String imgURL) {
+    public void insertNewRecord(String bookName, String authors, String department, String isbn,
+                                String courseNumber, String isRequired, String usedPrice,
+                                String newPrice, String semester, String imgURL) {
         mdb = this.getWritableDatabase();
-        ContentValues contentValues = wrapper(bookName, isbn, authors, isRequired, status, department,
-                courseNumber, usedPrice, newPrice, imgURL);
+        ContentValues contentValues = wrapper(bookName, authors, department, isbn, courseNumber,
+                isRequired, usedPrice, newPrice, semester, imgURL);
         mdb.insertWithOnConflict(DATABASE_TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
@@ -143,5 +154,9 @@ public class DBhelper extends SQLiteOpenHelper {
 
     public static String getTableColumnCourse() {
         return TABLE_COLUMN_COURSE;
+    }
+
+    public static String getTableColumnBookCourse() {
+        return TABLE_COLUMN_BOOK_COURSE;
     }
 }
