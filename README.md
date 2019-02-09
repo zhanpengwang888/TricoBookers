@@ -17,7 +17,7 @@
 
 ## Protoype Summary
 
-* We provide search suggestions based on the keywords students typed, and quick match between sellers and buyers. It's a fast safe, reliable and cost-efficient way to circulate the textbooks among Trico community
+* We provide search suggestions based on the keywords students typed, and quick match between potential sellers and buyers. For sellers, we provide a basic interface for them to upload their information and selling price of certain books. It's a fast safe, reliable and cost-efficient way to circulate the textbooks among Trico community
 
 
 ## Presentation
@@ -26,7 +26,7 @@
 
 ## Next Steps
 
-*1. Complete student account system. 2.Complete interface for sellers 3. Provide online transaction options (e.g. paypal/venmo)*
+*1. Complete student account system. 2.Improve interface 3. Provide online transaction options (e.g. paypal/venmo)
 
 ## License
 
