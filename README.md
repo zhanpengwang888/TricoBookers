@@ -1,7 +1,7 @@
 
 ## Team Name
 
-*PolarBears*
+*WeBearBears*
 
 ## Team Members
 
