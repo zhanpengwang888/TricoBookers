@@ -30,6 +30,10 @@ public class DBhelper extends SQLiteOpenHelper {
     private static String DATABASE_PATH;
 
     private static String DATABASE_SELLERS_TABLE_NAME = "sellers";
+    private static String SELLERS_TABLE_COLUMN_USERNAME = "username";
+    private static String SELLERS_TABLE_COLUMN_ISBN = "isbn";
+    private static String SELLERS_TABLE_COLUMN_CONTACTS = "phone_number";
+    private static String SELLERS_TABLE_COLUMN_PRICE = "price";
 
     private SQLiteDatabase mdb;
 
@@ -49,11 +53,17 @@ public class DBhelper extends SQLiteOpenHelper {
                 + TABLE_COLUMN_USED_PRICE + " TEXT, " + TABLE_COLUMN_IMG_URL + " TEXT, "
                 + TABLE_COLUMN_BOOK_COURSE + " TEXT, UNIQUE(book_course) ON CONFLICT REPLACE)";
         db.execSQL(queryString);
+
+        // Create another database for sellers
+        String queryStringSellers = "CREATE TABLE " + DATABASE_SELLERS_TABLE_NAME + " (id INTEGER PRIMARY KEY" +
+                " AUTOINCREMENT, " + SELLERS_TABLE_COLUMN_USERNAME + " TEXT, " + SELLERS_TABLE_COLUMN_ISBN + " TEXT, "
+                + SELLERS_TABLE_COLUMN_CONTACTS + " TEXT, " + SELLERS_TABLE_COLUMN_PRICE + " TEXT)";
+        db.execSQL(queryStringSellers);
     }
 
-    public long getCount() {
+    public long getCount(String databaseName) {
         mdb = this.getReadableDatabase();
-        long count = DatabaseUtils.queryNumEntries(mdb, DATABASE_TABLE_NAME);
+        long count = DatabaseUtils.queryNumEntries(mdb, databaseName);
         return count;
     }
 
@@ -79,8 +89,18 @@ public class DBhelper extends SQLiteOpenHelper {
         contentValues.put(TABLE_COLUMN_IMG_URL, imgURL);
         contentValues.put(TABEL_COLUMN_SEMESTER, semester);
         String bookCourse = bookName + " " + courseNumber;
-        contentValues.put(TABLE_COLUMN_BOOK_NAME, bookCourse);
+        contentValues.put(TABLE_COLUMN_BOOK_COURSE, bookCourse);
         return contentValues;
+    }
+
+    public void insertNewSellers(String userName, String isbn, String price, String contact) {
+        mdb = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SELLERS_TABLE_COLUMN_USERNAME, userName);
+        contentValues.put(SELLERS_TABLE_COLUMN_ISBN, isbn);
+        contentValues.put(SELLERS_TABLE_COLUMN_PRICE, price);
+        contentValues.put(SELLERS_TABLE_COLUMN_CONTACTS, contact);
+        mdb.insertWithOnConflict(DATABASE_SELLERS_TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     public void insertNewRecord(String bookName, String authors, String department, String isbn,
@@ -109,9 +129,13 @@ public class DBhelper extends SQLiteOpenHelper {
         return sb;
     }
 
-//    public String getInformationByBookCouse(String query, String queryRequest) {
-//
-//    }
+    public String getInformationByBookCouse(String query, String queryRequest) {
+        ArrayList<Integer> id = getIdsForQueryMatchingString(query, TABLE_COLUMN_BOOK_COURSE, false);
+        if (id.size() > 0) {
+            return getInformationFromOID(id.get(0), queryRequest).toString();
+        }
+        return "";
+    }
 
     public ArrayList<Integer> getIdsForQueryMatchingString(String queryText, String option, boolean isDefault) {
         ArrayList<Integer> ids = new ArrayList<>();
@@ -169,5 +193,9 @@ public class DBhelper extends SQLiteOpenHelper {
 
     public static String getTableColumnImgUrl() {
         return TABLE_COLUMN_IMG_URL;
+    }
+
+    public static String getDatabaseTableName() {
+        return DATABASE_TABLE_NAME;
     }
 }

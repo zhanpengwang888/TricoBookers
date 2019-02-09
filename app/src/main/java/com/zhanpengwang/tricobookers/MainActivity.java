@@ -57,6 +57,28 @@ class parseCSVIntoDB extends AsyncTask<Void, Void, Void> {
                 e.printStackTrace();
             }
         }
+        String tsvFile = "sellers.tsv";
+        InputStream inputStream1 = null;
+        try {
+            AssetManager assetManager = activity.getAssets();
+            inputStream = assetManager.open(tsvFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (inputStream != null) {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] columns = line.split("\t");
+                    mDBHelper.insertNewSellers(columns[0], columns[1], columns[2], columns[3]);
+                    Log.e("error in parsing data", columns[0]);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 
@@ -94,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         searchAutoComplete.setOnItemClickListener(this);
 
         // parse data from csv to the database
-        if (mDBhelper.getCount()<=0) {
+        if (mDBhelper.getCount(DBhelper.getDatabaseTableName())<=0) {
             new parseCSVIntoDB(this, mDBhelper).execute();
             Log.e("Parsing data into db", "=====");
         }
@@ -142,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String s) {
         Log.e("onQueryTextSubmit", s + "-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-        Intent intent = new Intent(getBaseContext(), SearchResultListActivity.class);
+        Intent intent = new Intent(getBaseContext(), SearchResultActivity.class);
         intent.putExtra("query", s);
         startActivity(intent);
         return false;
@@ -156,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             ArrayList<Integer> queryResultsID = mDBhelper.getIdsForQueryMatchingString(s, searchOption, isDefault);
             // get information from database according to search option and id.
             for (Integer id : queryResultsID) {
-                queryTexts.add(mDBhelper.getInformationFromOID(id, DBhelper.getTableColumnBookName()).toString());
+                queryTexts.add(mDBhelper.getInformationFromOID(id, DBhelper.getTableColumnBookCourse()).toString());
             }
             String[] queryResult = new String[queryTexts.size()];
             queryResult = queryTexts.toArray(queryResult);

@@ -9,14 +9,14 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
-public class SearchResultListAdapter extends BaseAdapter {
+public class SellingListAdapter extends BaseAdapter {
     private Context mContext;
-    private SearchResultList searchResultList;
+    private SellingList sellingList;
     private DBhelper mDBHelper;
 
-    SearchResultListAdapter(Context context, SearchResultList searchResults, DBhelper dBhelper) {
+    SellingListAdapter(Context context, SellingList searchResults, DBhelper dBhelper) {
         this.mContext = context;
-        this.searchResultList = searchResults;
+        this.sellingList = searchResults;
         this.mDBHelper = dBhelper;
         DataSetObserver observer = new DataSetObserver() {
             @Override
@@ -29,17 +29,17 @@ public class SearchResultListAdapter extends BaseAdapter {
                 super.onInvalidated();
             }
         };
-        this.searchResultList.registerDataSetObserver(observer);
+        this.sellingList.registerDataSetObserver(observer);
     }
 
     @Override
     public int getCount() {
-        return searchResultList.size();
+        return sellingList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return searchResultList.get(position);
+        return sellingList.get(position);
     }
 
     @Override
@@ -48,11 +48,11 @@ public class SearchResultListAdapter extends BaseAdapter {
     }
 
     public void addListItemToSearchResultList(List<SearchResult> srl) {
-        searchResultList.addAll(srl);
+        sellingList.addAll(srl);
     }
 
-    public void setSearchResultList(List<SearchResult> srl) {
-        searchResultList.setSearchResultList(srl);
+    public void setSellingList(List<SearchResult> srl) {
+        sellingList.setSearchResultList(srl);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SearchResultListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final SearchResult searchResult = searchResultList.get(position);
+        final SearchResult searchResult = sellingList.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.search_result_item, parent, false);
         }

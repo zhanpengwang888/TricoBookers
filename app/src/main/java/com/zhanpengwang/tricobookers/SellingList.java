@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SearchResultList extends AbstractList<SearchResult> {
+public class SellingList extends AbstractList<SearchResult> {
     private final DataSetObservable dataSetObservable;
     private List<SearchResult> searchResultList;
 
-    protected SearchResultList() {
+    protected SellingList() {
         this.dataSetObservable = new DataSetObservable();
         searchResultList = new ArrayList<>();
     }
