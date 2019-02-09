@@ -1,11 +1,14 @@
 package com.zhanpengwang.tricobookers;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -59,7 +62,7 @@ class parseCSVIntoDB extends AsyncTask<Void, Void, Void> {
 
 }
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
 
     private DBhelper mDBhelper;
     private SearchView searchView;
@@ -86,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         searchAutoComplete.setDropDownBackgroundResource(android.R.color.background_light);
         arrayAdapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_dropdown_item_1line, new String[]{});
         searchAutoComplete.setAdapter(arrayAdapter);
+
+        // Listen to search view item on click event
+        searchAutoComplete.setOnItemClickListener(this);
 
         // parse data from csv to the database
         if (mDBhelper.getCount()<=0) {
@@ -136,7 +142,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String s) {
         Log.e("onQueryTextSubmit", s + "-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-
+        Intent intent = new Intent(getBaseContext(), SearchResultListActivity.class);
+        intent.putExtra("query", s);
+        startActivity(intent);
         return false;
     }
 
@@ -157,5 +165,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             arrayAdapter.notifyDataSetChanged();
         }
         return false;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String queryString = (String) parent.getItemAtPosition(position);
+        searchAutoComplete.setText("" + queryString);
     }
 }

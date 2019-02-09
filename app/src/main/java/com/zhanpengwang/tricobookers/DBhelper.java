@@ -28,6 +28,9 @@ public class DBhelper extends SQLiteOpenHelper {
     private static String TABLE_COLUMN_BOOK_COURSE = "book_course";
     private static final int DICTIONARY_DATABASE_QUERY_ERROR = -2;
     private static String DATABASE_PATH;
+
+    private static String DATABASE_SELLERS_TABLE_NAME = "sellers";
+
     private SQLiteDatabase mdb;
 
     public DBhelper(Context mContext) {
@@ -106,6 +109,10 @@ public class DBhelper extends SQLiteOpenHelper {
         return sb;
     }
 
+//    public String getInformationByBookCouse(String query, String queryRequest) {
+//
+//    }
+
     public ArrayList<Integer> getIdsForQueryMatchingString(String queryText, String option, boolean isDefault) {
         ArrayList<Integer> ids = new ArrayList<>();
         if (queryText.contains("'")) {
@@ -158,5 +165,9 @@ public class DBhelper extends SQLiteOpenHelper {
 
     public static String getTableColumnBookCourse() {
         return TABLE_COLUMN_BOOK_COURSE;
+    }
+
+    public static String getTableColumnImgUrl() {
+        return TABLE_COLUMN_IMG_URL;
     }
 }

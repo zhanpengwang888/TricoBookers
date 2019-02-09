@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dip"
+    tools:context=".SearchResultListActivity">
 
-    <ImageView
-        android:id="@+id/thumbnail_image"
-        android:layout_width="79dp"
-        android:layout_height="58dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="6dip"
-        android:layout_marginRight="6dip"
-        tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/authors"
-        android:layout_width="239dp"
-        android:layout_height="27dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@id/thumbnail_image"
-        android:layout_toRightOf="@id/thumbnail_image"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:text="Author"
-        android:textSize="@dimen/text_size_small" />
+        <ImageView
+            android:id="@+id/thumbnail_image"
+            android:layout_width="371dp"
+            android:layout_height="242dp"
+            tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
 
-    <TextView
-        android:id="@+id/bookName"
-        android:layout_width="239dp"
-        android:layout_height="27dp"
-        android:layout_above="@id/authors"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@id/thumbnail_image"
-        android:layout_toRightOf="@id/thumbnail_image"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:text="Book name"
-        android:textSize="@dimen/text_size_medium" />
+        <TextView
+            android:id="@+id/bookName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="20pt"
+            app:layout_constraintTop_toBottomOf="@id/thumbnail_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="147dp" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/Sell"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            app:layout_constraintTop_toBottomOf="@+id/bookName"
+            app:layout_constraintLeft_toRightOf="@+id/Buy"
+            android:text="Sell"/>
+
+        <Button
+            android:id="@+id/Buy"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            app:layout_constraintTop_toBottomOf="@+id/bookName"
+            android:text="Buy"/>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>
